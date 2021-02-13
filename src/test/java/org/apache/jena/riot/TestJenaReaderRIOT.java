@@ -28,6 +28,8 @@ import java.nio.file.Paths ;
 
 import org.apache.jena.atlas.lib.IRILib ;
 import org.apache.jena.base.Sys;
+import org.apache.jena.irix.IRIs;
+import org.apache.jena.irix.IRIx;
 import org.apache.jena.rdf.model.Model ;
 import org.apache.jena.rdf.model.ModelFactory ;
 import org.apache.jena.rdf.model.Resource ;
@@ -147,8 +149,8 @@ public class TestJenaReaderRIOT
         System.out.println("base1 = "+baseStr1);
         System.out.println("base2 = "+baseStr2);
 
-        System.out.println();
-        System.getProperties().store(System.out, "ENV");
+//        System.out.println();
+//        System.getProperties().store(System.out, "ENV");
 
         System.out.println("<env");
         System.out.println();
@@ -161,12 +163,12 @@ public class TestJenaReaderRIOT
         System.out.println();
     }
 
-    @Test public void read_url_1x() {
-        System.out.println(">read_url_1x");
-        modelRead(plainRelFnRDFXML) ;
-        System.out.println("<read_url_1x");
-        System.out.println();
-    }
+//    @Test public void read_url_1x() {
+//        System.out.println(">read_url_1x");
+//        modelRead(plainRelFnRDFXML) ;
+//        System.out.println("<read_url_1x");
+//        System.out.println();
+//    }
 
     @Test public void read_url_2() {
         System.out.println(">read_url_2");
@@ -175,55 +177,71 @@ public class TestJenaReaderRIOT
         System.out.println();
     }
 
-    @Test public void read_url_2x() {
-        System.out.println(">read_url_2x");
-        modelRead("file:"+plainRelFnRDFXML) ;
-        System.out.println("<read_url_2x");
-        System.out.println();
-    }
+//    @Test public void read_url_2x() {
+//        System.out.println(">read_url_2x");
+//        modelRead("file:"+plainRelFnRDFXML) ;
+//        System.out.println("<read_url_2x");
+//        System.out.println();
+//    }
 
     @Test public void read_url_3() {
         System.out.println(">read_url_3");
+
+        IRIx base = IRIs.getSystemBase();
+        System.out.println("base = "+base);
+
         String cwd = Paths.get(".").toAbsolutePath().normalize().toString() ;
         System.out.println("cwd = "+cwd);
+        String fn = "file:"+cwd+"/X/"+plainRelFnTTL;
+        System.out.println("fn = "+fn);
+
+        System.out.println("MODEL READ");
         modelRead("file:"+cwd+"/"+plainRelFnTTL) ;
         System.out.println("<read_url_3");
         System.out.println();
     }
 
-    @Test public void read_url_3x() {
-        System.out.println(">read_url_3x");
-        String cwd = Paths.get(".").toAbsolutePath().normalize().toString() ;
-        System.out.println("cwd = "+cwd);
-        modelRead("file:"+cwd+"/"+plainRelFnRDFXML) ;
-        System.out.println("<read_url_3x");
-        System.out.println();
-    }
+//    @Test public void read_url_3x() {
+//        System.out.println(">read_url_3x");
+//        String cwd = Paths.get(".").toAbsolutePath().normalize().toString() ;
+//        System.out.println("cwd = "+cwd);
+//        modelRead("file:"+cwd+"/"+plainRelFnRDFXML) ;
+//        System.out.println("<read_url_3x");
+//        System.out.println();
+//    }
 
     @Test public void read_url_4() {
         System.out.println(">read_url_4");
         String cwd = Paths.get(".").toAbsolutePath().normalize().toString() ;
+        System.out.println("cwd = "+cwd);
         String fn = "file:"+cwd+"/"+plainRelFnTTL ;
         String fn2 = IRILib.filenameToIRI(fn) ;
+        System.out.println("fn1 = "+fn);
+        System.out.println("fn2 = "+fn2);
         modelRead(fn2) ;
         System.out.println("<read_url_4");
         System.out.println();
     }
 
-    @Test public void read_url_4x() {
-        System.out.println(">read_url_4x");
-        String cwd = Paths.get(".").toAbsolutePath().normalize().toString() ;
-        String fn = "file:"+cwd+"/"+plainRelFnRDFXML ;
-        String fn2 = IRILib.filenameToIRI(fn) ;
-        modelRead(fn2) ;
-        System.out.println("<read_url_4x");
-        System.out.println();
-    }
+//    @Test public void read_url_4x() {
+//        System.out.println(">read_url_4x");
+//        String cwd = Paths.get(".").toAbsolutePath().normalize().toString() ;
+//        String fn = "file:"+cwd+"/"+plainRelFnRDFXML ;
+//        String fn2 = IRILib.filenameToIRI(fn) ;
+//        modelRead(fn2) ;
+//        System.out.println("<read_url_4x");
+//        System.out.println();
+//    }
 
     private static Model modelRead(String fn) {
         System.out.println(fn);
         Model m = ModelFactory.createDefaultModel();
-        m.read(fn) ;
+        try {
+            m.read(fn) ;
+        } catch (Throwable ex) {
+            ex.printStackTrace(System.out);
+            throw ex;
+        }
         return m ;
     }
 

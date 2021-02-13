@@ -36,6 +36,7 @@ import org.apache.jena.atlas.lib.InternalErrorException;
 import org.apache.jena.atlas.web.ContentType;
 import org.apache.jena.atlas.web.TypedInputStream;
 import org.apache.jena.graph.Graph;
+import org.apache.jena.irix.IRIs;
 import org.apache.jena.irix.IRIxResolver;
 import org.apache.jena.query.Dataset;
 import org.apache.jena.rdf.model.Model;
@@ -394,6 +395,7 @@ public class RDFParser {
             // Already mapped.
             in = streamManager.openNoMapOrNull(urlStr);
         }
+
         if ( in == null )
             throw new RiotNotFoundException("Not found: "+urlStr);
         return in ;
